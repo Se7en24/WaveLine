@@ -22,14 +22,10 @@ import AccountCircle from "@mui/icons-material/AccountCircle"; // Import Account
 import Logo from '../../Assets/Logo.jpg'; // Import the logo
 
 const Dashboard = () => {
-  const [fromPort, setFromPort] = useState('');
-  const [toPort, setToPort] = useState('');
-  const [date, setDate] = useState('');
   const [userDetails, setUserDetails] = useState("");
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null); // State for the menu anchor
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('schedules');
 
   const fetchUserDetails = () => {
     setUserDetails(JSON.parse(localStorage.getItem("user")));
@@ -41,7 +37,7 @@ const Dashboard = () => {
 
   const menuItems = [
     "Dashboard",
-    "Make  a Booking",
+    "Make a Booking",
     "Shipping Instructions",
     "Free time Detention Demurrage",
     "My Profile"
@@ -52,7 +48,6 @@ const Dashboard = () => {
     localStorage.removeItem("user"); // Clear user details as well
     toast.success("Logged out successfully!");
     navigate("/", { replace: true }); // Redirect to the home page and replace the current entry
-    // No need for window.location.reload() as the navigation will handle it
   };
 
   const toggleDrawer = (open) => (event) => {
@@ -108,6 +103,8 @@ const Dashboard = () => {
           </div>
           <div className="navbar-menu" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>  
             <Link to="#tracking" style={{ textDecoration: 'none', color: '#333', fontWeight: 'bold' }}>Tracking</Link>
+            <Link to="/shipschedules" style={{ textDecoration: 'none', color: '#333', fontWeight: 'bold' }}>Schedules</Link>
+            <Link to="#contacts" style={{ textDecoration: 'none', color: '#333', fontWeight: 'bold' }}>Contacts</Link>
             
             {/* User Profile Button */}
             <Button
@@ -135,89 +132,9 @@ const Dashboard = () => {
       </Drawer>
       <div className="header-section">
         <h1 className="main-title">Welcome to Your Dashboard</h1>
-        <div className="tracking-container">
-          <div className="tracking-tabs">
-            <button 
-              className={`tab ${activeTab === 'tracking' ? 'active' : ''}`}
-              onClick={() => setActiveTab('tracking')}
-            >
-              TRACKING
-            </button>
-            <button 
-              className={`tab ${activeTab === 'schedules' ? 'active' : ''}`}
-              onClick={() => setActiveTab('schedules')}
-            >
-              SCHEDULES
-            </button>
-            <button 
-              className={`tab ${activeTab === 'contacts' ? 'active' : ''}`}
-              onClick={() => setActiveTab('contacts')}
-            >
-              CONTACTS
-            </button>
-          </div>
-          {activeTab === 'tracking' && (
-            <div className="tracking-content">
-              <div className="tracking-options">
-                <label>
-                  <input type="radio" name="tracking" value="container" defaultChecked />
-                  Container / Bill of Lading Number
-                </label>
-                <label>
-                  <input type="radio" name="tracking" value="booking" />
-                  Booking Number
-                </label>
-              </div>
-              <input type="text" placeholder="Search..." className="search-input" />
-            </div>
-          )}
-          {activeTab === 'schedules' && (
-            <div className="schedules-content">
-              <div className="port-inputs">
-                <input
-                  type="text"
-                  placeholder="From (Port)"
-                  className="port-input"
-                  value={fromPort}
-                  onChange={(e) => setFromPort(e.target.value)}
-                />
-                <button className="swap-button" onClick={() => {
-                  const temp = fromPort;
-                  setFromPort(toPort);
-                  setToPort(temp);
-                }}>⇄</button>
-                <input
-                  type="text"
-                  placeholder="To (Port)"
-                  className="port-input"
-                  value={toPort}
-                  onChange={(e) => setToPort(e.target.value)}
-                />
-              </div>
-              <input
-                type="date"
-                className="date-input"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-              />
-              <button
-                className="search-button"
-                onClick={() => navigate(`/shipschedules?from=${fromPort}&to=${toPort}&date=${date}`)}
-              >
-                Search
-              </button>
-            </div>
-          )}
-          {activeTab === 'contacts' && (
-            <div className="contacts-content">
-              {/* Add contacts content here */}
-              <p>Contacts information will be displayed here.</p>
-            </div>
-          )}
-        </div>
       </div>
       <div className="main-content">
-        {/* Removed the tracking box below the background image */}
+        {/* Main content area */}
       </div>
     </div>
   );

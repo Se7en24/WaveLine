@@ -2,8 +2,11 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
+
 const indexRoutes = require("./Routes/indexRoutes");
+const shipRoutes = require("./Routes/shipRoutes"); // ✅ ADD THIS
 const paymentRoutes = require('./Routes/paymentRoutes');
+
 dotenv.config();
 
 const app = express();
@@ -19,8 +22,9 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log(err));
 
-  app.use("/api", indexRoutes);
-  app.use('/api/payment', paymentRoutes);
+app.use("/api", indexRoutes);
+app.use("/api/ships", shipRoutes);  // ✅ FIXED: Ensure ship routes are registered
+app.use("/api/payment", paymentRoutes);
 
 const PORT = process.env.PORT || 5000;
 

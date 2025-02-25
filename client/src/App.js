@@ -9,6 +9,8 @@ import Booking from "./Pages/Booking";
 import Schedule from "./Pages/Schedule";
 import AdminDashboard from "./Pages/AdminPages/AdminDashboard";
 import AppLayout from "./Components/AppLayout/AppLayout";
+import Ship from "./Pages/AdminPages/Ship";
+import ScheduledShips from "./Pages/AdminPages/ScheduledShips";
 import AddShipFormPage from "./Pages/AdminPages/AddShipFormPage";
 import Profile from "./Pages/Profile";
 import LoginNavbar from "./Pages/LoginNavbar";
@@ -32,7 +34,9 @@ function App() {
           <Route path="/shipschedules" element={<ShipSchedules />} />
           <Route element={<AppLayout />}>
             <Route path="/admin-dashboard" element={<AdminDashboard />} />
+            <Route path="/admin-dashboard/ships" element={<Ship />} />
             <Route path="/admin-dashboard/ships-form" element={<AddShipFormPage />} />
+            <Route path="/admin-dashboard/schedules" element={<ScheduledShips />} />
             <Route path="/admin-dashboard/users" element={<UsersList />} />
             <Route path="/admin-dashboard/bookings" element={<BookingPage/>} />
           </Route>
