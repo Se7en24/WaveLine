@@ -41,7 +41,7 @@ const Dashboard = () => {
 
   const menuItems = [
     "Dashboard",
-    "eBookings",
+    "Make  a Booking",
     "Shipping Instructions",
     "Free time Detention Demurrage",
     "My Profile"
@@ -106,8 +106,7 @@ const Dashboard = () => {
               <img src={Logo} alt="Logo" style={{ height: '40px' }} />
             </Link>
           </div>
-          <div className="navbar-menu" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-            <Link to="#search" style={{ textDecoration: 'none', color: '#333', fontWeight: 'bold' }}>Search</Link>
+          <div className="navbar-menu" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>  
             <Link to="#tracking" style={{ textDecoration: 'none', color: '#333', fontWeight: 'bold' }}>Tracking</Link>
             
             {/* User Profile Button */}

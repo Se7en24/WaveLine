@@ -51,7 +51,6 @@ const LoginNav = ({ toggleDrawer, userDetails }) => {
           </Link>
         </div>
         <div className="navbar-menu" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-          <Link to="#search" style={{ textDecoration: 'none', color: '#333', fontWeight: 'bold' }}>Search</Link>
           <Link to="#tracking" style={{ textDecoration: 'none', color: '#333', fontWeight: 'bold' }}>Tracking</Link>
           
           <Button
