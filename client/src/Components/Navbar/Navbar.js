@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css'; 
-import Logo from '../../Assets/Logo.jpg'
+import Logo from '../../Assets/Logo.jpg';
 
-function Navbar () {
+function Navbar() {
   const [navbarScrolled, setNavbarScrolled] = useState(false);
 
   const handleScroll = () => {
@@ -25,17 +25,17 @@ function Navbar () {
     <nav className={`navbar ${navbarScrolled ? 'navbar-scrolled' : ''}`}>
       <div className="navbar-logo">
         <Link to="/">
-        <img src={Logo} alt="Logo" />
+          <img src={Logo} alt="Logo" />
         </Link>
       </div>
       <div className="navbar-menu">
         <a href="/login">Login</a>
-        <a href="#contacts">Contact</a>
+        <Link to="/contact">Contact</Link>
         <a href="#about">About Us</a>
       </div>
       <button className="navbar-toggler">&#9776;</button>
     </nav>
   );
-};
+}
 
 export default Navbar;

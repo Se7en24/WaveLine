@@ -17,6 +17,8 @@ import LoginNavbar from "./Pages/LoginNavbar";
 import UsersList from "./Pages/AdminPages/UsersList";
 import ShipSchedules from "./Pages/ShipSchedules";
 import BookingPage from "./Pages/AdminPages/BookingPage";
+import Contact from "./Pages/Contact"; // Added import for Contact page
+
 function App() {
   return (
     <div className="App">
@@ -32,13 +34,14 @@ function App() {
           <Route path="/myprofile" element={<Profile />} />
           <Route path="/login-navbar" element={<LoginNavbar />} />
           <Route path="/shipschedules" element={<ShipSchedules />} />
+          <Route path="/contact" element={<Contact />} /> {/* Added route for Contact page */}
           <Route element={<AppLayout />}>
             <Route path="/admin-dashboard" element={<AdminDashboard />} />
             <Route path="/admin-dashboard/ships" element={<Ship />} />
             <Route path="/admin-dashboard/ships-form" element={<AddShipFormPage />} />
             <Route path="/admin-dashboard/schedules" element={<ScheduledShips />} />
             <Route path="/admin-dashboard/users" element={<UsersList />} />
-            <Route path="/admin-dashboard/bookings" element={<BookingPage/>} />
+            <Route path="/admin-dashboard/bookings" element={<BookingPage />} />
           </Route>
         </Routes>
       </Router>
