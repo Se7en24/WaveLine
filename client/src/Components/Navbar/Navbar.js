@@ -29,9 +29,9 @@ function Navbar () {
         </Link>
       </div>
       <div className="navbar-menu">
-        <a href="#tracking">Tracking</a>
-        
         <a href="/login">Login</a>
+        <a href="#contacts">Contact</a>
+        <a href="#about">About Us</a>
       </div>
       <button className="navbar-toggler">&#9776;</button>
     </nav>
