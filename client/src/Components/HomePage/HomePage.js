@@ -18,28 +18,27 @@ const HomePage = () => {
       </section>
 
       {/* Our Solutions Section */}
-      <section className="solutions-section">
-        <div className="container">
-          <h2>Our Solutions</h2>
-          <p>
-            As a global leader in container shipping, our worldwide teams of industry-specific experts offer round-the-clock personalized service. We ensure fast and reliable transit times, providing the best solutions for your needs.
-          </p>
-          <div className="solutions-container">
-            <div className="solution">
-              <h3>Shipping Solutions</h3>
-            </div>
-            <div className="solution">
-              <h3>Inland Transportation & Logistics Solutions</h3>
-            </div>
-            <div className="solution">
-              <h3>Air Cargo Solutions</h3>
-            </div>
-            <div className="solution">
-              <h3>Digital Business Solutions</h3>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Our Solutions Section */}
+<section className="solutions-section">
+  <h2>Our Solutions</h2>
+  <p>
+    As a global leader in container shipping, our worldwide teams of industry-specific experts offer round-the-clock personalized service. We ensure fast and reliable transit times, providing the best solutions for your needs.
+  </p>
+  <div className="solutions-container">
+    <div className="solution">
+      <h3>Shipping Solutions</h3>
+    </div>
+    <div className="solution">
+      <h3>Inland Transportation & Logistics Solutions</h3>
+    </div>
+    <div className="solution">
+      <h3>Air Cargo Solutions</h3>
+    </div>
+    <div className="solution">
+      <h3>Digital Business Solutions</h3>
+    </div>
+  </div>
+</section>
     </div>
   );
 };
