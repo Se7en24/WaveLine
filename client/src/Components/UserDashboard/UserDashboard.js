@@ -18,13 +18,13 @@ import {
   MenuItem 
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import AccountCircle from "@mui/icons-material/AccountCircle"; // Import AccountCircle icon
-import Logo from '../../Assets/Logo.jpg'; // Import the logo
+import AccountCircle from "@mui/icons-material/AccountCircle"; 
+import Logo from '../../Assets/Logo.jpg'; 
 
 const Dashboard = () => {
   const [userDetails, setUserDetails] = useState("");
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null); // State for the menu anchor
+  const [anchorEl, setAnchorEl] = useState(null); 
   const navigate = useNavigate();
 
   const fetchUserDetails = () => {
@@ -35,19 +35,19 @@ const Dashboard = () => {
     fetchUserDetails();
   }, []);
 
-  const menuItems = [
-    "Dashboard",
-    "Make a Booking",
-    "Shipping Instructions",
-    "Free time Detention Demurrage",
-    "My Profile"
-  ];
+  const routeMap = {
+    "Dashboard": "/dashboard",
+    "Make a Booking": "/make-a-booking",  
+    "Shipping Instructions": "/shipping-instructions",
+    "Free time Detention Demurrage": "/free-time-detention-demurrage",
+    "My Profile": "/profile"
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("user"); // Clear user details as well
+    localStorage.removeItem("user"); 
     toast.success("Logged out successfully!");
-    navigate("/", { replace: true }); // Redirect to the home page and replace the current entry
+    navigate("/", { replace: true }); 
   };
 
   const toggleDrawer = (open) => (event) => {
@@ -58,11 +58,11 @@ const Dashboard = () => {
   };
 
   const handleProfileClick = (event) => {
-    setAnchorEl(event.currentTarget); // Set the anchor element for the menu
+    setAnchorEl(event.currentTarget); 
   };
 
   const handleCloseMenu = () => {
-    setAnchorEl(null); // Close the menu
+    setAnchorEl(null); 
   };
 
   const drawerList = (
@@ -72,10 +72,8 @@ const Dashboard = () => {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {menuItems.map((text, index) => (
-          <ListItem button key={text} onClick={() => {
-            navigate(`/${text.replace(" ", "").toLowerCase()}`);
-          }}>
+        {Object.keys(routeMap).map((text) => (
+          <ListItem button key={text} onClick={() => navigate(routeMap[text])}>
             <ListItemText primary={text} />
           </ListItem>
         ))}
@@ -106,7 +104,6 @@ const Dashboard = () => {
             <Link to="/shipschedules" style={{ textDecoration: 'none', color: '#333', fontWeight: 'bold' }}>Schedules</Link>
             <Link to="#contacts" style={{ textDecoration: 'none', color: '#333', fontWeight: 'bold' }}>Contacts</Link>
             
-            {/* User Profile Button */}
             <Button
               onClick={handleProfileClick}
               style={{ display: 'flex', alignItems: 'center', marginLeft: '20px' }}
@@ -116,7 +113,6 @@ const Dashboard = () => {
               </Typography>
               <AccountCircle style={{ fontSize: '30px', color: '#333' }} />
             </Button>
-            {/* User Menu */}
             <Menu
               anchorEl={anchorEl}
               open={Boolean(anchorEl)}

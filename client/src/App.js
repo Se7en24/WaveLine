@@ -30,6 +30,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/track" element={<Track />} />
           <Route path="/ebookings" element={<Booking />} />
+          <Route path="/make-a-booking" element={<Booking />} />
           <Route path="/schedule" element={<Schedule />} />
           <Route path="/myprofile" element={<Profile />} />
           <Route path="/login-navbar" element={<LoginNavbar />} />

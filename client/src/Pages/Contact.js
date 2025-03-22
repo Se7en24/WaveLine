@@ -14,8 +14,8 @@ const Contact = () => {
       <div className="container">
         <h2>Contact Us</h2>
         <div className="contact-details">
-          <p><strong>Email:</strong> support@oceanoracle.com</p>
-          <p><strong>Phone:</strong> +1 234 567 890</p>
+          <p><strong>Email:</strong> support@WebWaves.com</p>
+          <p><strong>Phone:</strong> +91 7813820188 </p>
           <p><strong>Address:</strong> 123 Ocean Drive, Shipping City</p>
         </div>
         <h3>Feedback Form</h3>
