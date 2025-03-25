@@ -32,7 +32,7 @@ function App() {
           <Route path="/ebookings" element={<Booking />} />
           <Route path="/make-a-booking" element={<Booking />} />
           <Route path="/schedule" element={<Schedule />} />
-          <Route path="/myprofile" element={<Profile />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/login-navbar" element={<LoginNavbar />} />
           <Route path="/shipschedules" element={<ShipSchedules />} />
           <Route path="/contact" element={<Contact />} /> {/* Added route for Contact page */}

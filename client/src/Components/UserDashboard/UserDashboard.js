@@ -36,11 +36,11 @@ const Dashboard = () => {
   }, []);
 
   const routeMap = {
-    "Dashboard": "/dashboard",
     "Make a Booking": "/make-a-booking",  
     "Shipping Instructions": "/shipping-instructions",
     "Free time Detention Demurrage": "/free-time-detention-demurrage",
-    "My Profile": "/profile"
+    "My Profile": "/profile",
+    "My Bookings": "#MyBookings"
   };
 
   const handleLogout = () => {
