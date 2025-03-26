@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Register from "./Pages/Register";
 import Login from "./Pages/Login";
 import Home from "./Pages/Home";
-import Dashboard from "./Pages/Dashboard";
+import UserDashboard from "./Components/UserDashboard/UserDashboard";
 import Track from "./Pages/Track";
 import Booking from "./Pages/Booking";
 import Schedule from "./Pages/Schedule";
@@ -27,10 +27,10 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={<UserDashboard />} />
           <Route path="/track" element={<Track />} />
-          <Route path="/ebookings" element={<Booking />} />
           <Route path="/make-a-booking" element={<Booking />} />
+          <Route path="/ebookings" element={<Booking />} />
           <Route path="/schedule" element={<Schedule />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/login-navbar" element={<LoginNavbar />} />

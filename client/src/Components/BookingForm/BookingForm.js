@@ -63,6 +63,14 @@ const BookingForm = () => {
     additionalServices: [],
   });
   const [dateError, setDateError] = useState('');
+  const [phoneErrors, setPhoneErrors] = useState({
+    shipperPhone: '',
+    receiverPhone: ''
+  });
+  const [emailErrors, setEmailErrors] = useState({
+    shipperEmail: '',
+    receiverEmail: ''
+  });
   const navigate = useNavigate();
 
   const Base_URL = process.env.REACT_APP_BASE_URL;
@@ -78,6 +86,18 @@ const BookingForm = () => {
     }));
   }, []);
 
+  const validatePhoneNumber = (phone) => {
+    // Indian phone number validation (10 digits starting with 6-9)
+    const indianPhoneRegex = /^[6-9]\d{9}$/;
+    return indianPhoneRegex.test(phone);
+  };
+
+  const validateEmail = (email) => {
+    // Basic email validation regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const validateField = (name, value) => {
     let error = '';
 
@@ -87,12 +107,25 @@ const BookingForm = () => {
         'receiverName', 'receiverPhone', 'receiverEmail', 'receiverAddress',
         'cargoType', 'cargoWeight', 'cargoQuantity', 'cargoValue',
         'serviceType', 'shippingClass',
-        'originPort', 'destinationPort', 'preferredShippingDate',
         'paymentMethod', 'trackingPreference'
     ];
 
     if (requiredFields.includes(name) && !value.trim()) {
         error = 'This field is required';
+    }
+
+    // Phone number validation
+    if ((name === 'shipperPhone' || name === 'receiverPhone') && value.trim()) {
+        if (!validatePhoneNumber(value)) {
+            error = 'Please enter a valid 10-digit phone number';
+        }
+    }
+
+    // Email validation
+    if ((name === 'shipperEmail' || name === 'receiverEmail') && value.trim()) {
+        if (!validateEmail(value)) {
+            error = 'Please enter a valid email address';
+        }
     }
 
     // Insurance Validation (Only if insuranceRequired is true)
@@ -101,9 +134,7 @@ const BookingForm = () => {
     }
 
     return error;
-};
-
-  
+  };
 
   const validateDate = (value) => {
     const selectedDate = new Date(value);
@@ -117,6 +148,7 @@ const BookingForm = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+    
     if (type === 'checkbox') {
       if (name === 'additionalServices') {
         const updatedServices = checked
@@ -138,6 +170,24 @@ const BookingForm = () => {
       setFormData({ ...formData, [name]: value });
     } else {
       setFormData({ ...formData, [name]: value });
+      
+      // Validate phone numbers on change
+      if (name === 'shipperPhone' || name === 'receiverPhone') {
+        const error = validateField(name, value);
+        setPhoneErrors(prev => ({
+          ...prev,
+          [name]: error
+        }));
+      }
+      
+      // Validate emails on change
+      if (name === 'shipperEmail' || name === 'receiverEmail') {
+        const error = validateField(name, value);
+        setEmailErrors(prev => ({
+          ...prev,
+          [name]: error
+        }));
+      }
     }
   };
 
@@ -146,7 +196,7 @@ const BookingForm = () => {
     
     // Add company logo/header
     doc.setFontSize(20);
-    doc.text('Web Waves SHIPPING', 105, 15, { align: 'center' });
+    doc.text('WaveLine SHIPPING', 105, 15, { align: 'center' });
     
     // Add invoice details
     doc.setFontSize(12);
@@ -331,8 +381,6 @@ const BookingForm = () => {
       alert('Please enter a valid shipping date.');
     }
   };
-  
-
 
   return (
     <form className="booking-form" onSubmit={handleSubmit}>
@@ -342,7 +390,9 @@ const BookingForm = () => {
         <h3>Shipper Information</h3>
         <input type="text" name="shipperName" value={formData.shipperName} onChange={handleChange} placeholder="Shipper Name" required />
         <input type="tel" name="shipperPhone" value={formData.shipperPhone} onChange={handleChange} placeholder="Shipper Phone" required />
+        {phoneErrors.shipperPhone && <span className="error-message">{phoneErrors.shipperPhone}</span>}
         <input type="email" name="shipperEmail" value={formData.shipperEmail} onChange={handleChange} placeholder="Shipper Email" required />
+        {emailErrors.shipperEmail && <span className="error-message">{emailErrors.shipperEmail}</span>}
         <textarea name="shipperAddress" value={formData.shipperAddress} onChange={handleChange} placeholder="Shipper Address" required />
       </div>
 
@@ -350,7 +400,9 @@ const BookingForm = () => {
         <h3>Receiver Information</h3>
         <input type="text" name="receiverName" value={formData.receiverName} onChange={handleChange} placeholder="Receiver Name" required />
         <input type="tel" name="receiverPhone" value={formData.receiverPhone} onChange={handleChange} placeholder="Receiver Phone" required />
+        {phoneErrors.receiverPhone && <span className="error-message">{phoneErrors.receiverPhone}</span>}
         <input type="email" name="receiverEmail" value={formData.receiverEmail} onChange={handleChange} placeholder="Receiver Email" required />
+        {emailErrors.receiverEmail && <span className="error-message">{emailErrors.receiverEmail}</span>}
         <textarea name="receiverAddress" value={formData.receiverAddress} onChange={handleChange} placeholder="Receiver Address" required />
       </div>
 
@@ -386,28 +438,8 @@ const BookingForm = () => {
         </select>
       </div>
 
-      <div className="form-section">
-        <h3>Origin and Destination</h3>
-        <input type="text" id="originPort" name="originPort" value={formData.originPort} onChange={handleChange} placeholder="Origin Port" required />
-        <input type="text" id="destinationPort" name="destinationPort" value={formData.destinationPort} onChange={handleChange} placeholder="Destination Port" required />
-      </div>
 
-      <div className="form-section">
-        <h3>Schedule and Route</h3>
-        <div className="date-input-wrapper">
-          <input 
-            type="date" 
-            name="preferredShippingDate" 
-            value={formData.preferredShippingDate} 
-            onChange={handleChange} 
-            min={today}
-            required 
-          />
-          <label>Preferred Shipping Date</label>
-          {dateError && <span className="error-message">{dateError}</span>}
-        </div>
-        <input type="text" id="preferredCarrier" name="preferredCarrier" value={formData.preferredCarrier} onChange={handleChange} placeholder="Preferred Carrier (optional)" />
-      </div>
+      
 
       <div className="form-section">
         <h3>Insurance</h3>
@@ -459,7 +491,6 @@ const BookingForm = () => {
       <div className="form-section">
         <h3>Customs Information</h3>
         <input type="text" name="hsCode" value={formData.hsCode} onChange={handleChange} placeholder="HS Code" />
-        {/* You might want to add a file upload component here for customs documents */}
       </div>
 
       <div className="form-section">

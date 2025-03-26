@@ -111,7 +111,7 @@ const ScheduledShip = () => {
 
   const handleBooking = (schedule) => {
     // Navigate to booking form with schedule details as state
-    navigate('/ebookings', {
+    navigate('/make-a-booking', {
       state: {
         scheduleId: schedule._id,
         originPort: schedule.startingPort,
