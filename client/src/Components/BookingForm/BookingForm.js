@@ -71,6 +71,7 @@ const BookingForm = () => {
     shipperEmail: '',
     receiverEmail: ''
   });
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const navigate = useNavigate();
 
   const Base_URL = process.env.REACT_APP_BASE_URL;
@@ -107,6 +108,7 @@ const BookingForm = () => {
         'receiverName', 'receiverPhone', 'receiverEmail', 'receiverAddress',
         'cargoType', 'cargoWeight', 'cargoQuantity', 'cargoValue',
         'serviceType', 'shippingClass',
+        'originPort', 'destinationPort', 'preferredShippingDate',
         'paymentMethod', 'trackingPreference'
     ];
 
@@ -196,7 +198,7 @@ const BookingForm = () => {
     
     // Add company logo/header
     doc.setFontSize(20);
-    doc.text('WaveLine SHIPPING', 105, 15, { align: 'center' });
+    doc.text('OCEANORACLE SHIPPING', 105, 15, { align: 'center' });
     
     // Add invoice details
     doc.setFontSize(12);
@@ -243,10 +245,138 @@ const BookingForm = () => {
 
     // Add footer
     doc.setFontSize(10);
-    doc.text('Thank you for choosing WEB WAVES!', 105, 280, { align: 'center' });
+    doc.text('Thank you for choosing OCEANORACLE SHIPPING!', 105, 280, { align: 'center' });
 
     // Save the PDF
-    doc.save(`WEB WAVES_Invoice_${bookingDetails._id}.pdf`);
+    doc.save(`OCEANORACLE_Invoice_${bookingDetails._id}.pdf`);
+  };
+
+  const showConfirmationScreen = async () => {
+    const result = await Swal.fire({
+      title: 'Confirm Booking Details',
+      html: `
+        <div style="text-align: left;">
+          <h3>Shipper Information</h3>
+          <p><strong>Name:</strong> ${formData.shipperName}</p>
+          <p><strong>Phone:</strong> ${formData.shipperPhone}</p>
+          <p><strong>Email:</strong> ${formData.shipperEmail}</p>
+          
+          <h3>Receiver Information</h3>
+          <p><strong>Name:</strong> ${formData.receiverName}</p>
+          <p><strong>Phone:</strong> ${formData.receiverPhone}</p>
+          
+          <h3>Cargo Details</h3>
+          <p><strong>Type:</strong> ${formData.cargoType}</p>
+          <p><strong>Weight:</strong> ${formData.cargoWeight} kg</p>
+          
+          <h3>Payment</h3>
+          <p><strong>Amount:</strong> ₹10,000</p>
+          <p><strong>Payment Method:</strong> ${formData.paymentMethod}</p>
+        </div>
+      `,
+      showCancelButton: true,
+      confirmButtonText: 'Confirm & Proceed to Payment',
+      cancelButtonText: 'Review Details',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      footer: '<strong>Note:</strong> You will be redirected to payment gateway after confirmation'
+    });
+  
+    if (result.isConfirmed) {
+      await processBooking();
+    }
+  };
+
+  const processBooking = async () => {
+    try {
+      // Prepare booking data
+      const bookingData = {
+        ...formData,
+        preferredShippingDate: formData.preferredShippingDate 
+            ? new Date(formData.preferredShippingDate).toISOString() 
+            : null,
+      };
+
+      // Create booking
+      const bookingResponse = await axios.post(
+        `${Base_URL}/api/booking/bookings`,
+        bookingData
+      );
+      console.log('Booking Successful:', bookingResponse.data);
+
+      // Create Razorpay order
+      const orderResponse = await axios.post(
+        `${Base_URL}/api/payment/create-order`,
+        {
+          amount: 10000 * 100, 
+          bookingId: bookingResponse.data.data._id
+        }
+      );
+
+      // Configure Razorpay options
+      const options = {
+        key: process.env.REACT_APP_RAZORPAY_KEY_ID,
+        amount: orderResponse.data.order.amount,
+        currency: "INR",
+        name: "OCEANORACLE PAYMENT GATEWAY",
+        description: "Booking Payment",
+        order_id: orderResponse.data.order.id,
+        handler: async function (response) {
+          try {
+            // Verify payment
+            const verificationResponse = await axios.post(
+              `${Base_URL}/api/payment/verify`,
+              {
+                bookingId: bookingResponse.data.data._id,
+                paymentId: response.razorpay_payment_id,
+                orderId: response.razorpay_order_id,
+                signature: response.razorpay_signature,
+                amount: orderResponse.data.order.amount
+              }
+            );
+
+            // Generate and download bill
+            generateBill(bookingResponse.data.data, {
+              paymentId: response.razorpay_payment_id,
+              amount: orderResponse.data.order.amount
+            });
+
+            Swal.fire({
+              title: "Payment successful!",
+              text: "Booking confirmed and invoice has been downloaded",
+              icon: "success"
+            });
+
+            navigate('/dashboard');
+          } catch (error) {
+            console.error('Payment verification failed:', error);
+            alert('Payment verification failed. Please contact support.');
+          }
+        },
+        prefill: {
+          name: formData.shipperName,
+          email: formData.shipperEmail,
+          contact: formData.shipperPhone
+        },
+        theme: {
+          color: "#3399cc"
+        }
+      };
+
+      const razorpay = new window.Razorpay(options);
+      razorpay.open();
+
+    } catch (error) {
+      console.error('Error:', error);
+      let errorMessage = 'An error occurred. Please try again.';
+
+      if (error.response) {
+        console.error('Error data:', error.response.data);
+        errorMessage = error.response.data.message || errorMessage;
+      }
+
+      alert(errorMessage);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -268,114 +398,7 @@ const BookingForm = () => {
     }
   
     if (!dateError) {
-      try {
-        // Prepare booking data
-        const bookingData = {
-          ...formData,
-          preferredShippingDate: formData.preferredShippingDate 
-              ? new Date(formData.preferredShippingDate).toISOString() 
-              : null,
-        };
-  
-        // Create booking
-        const bookingResponse = await axios.post(
-          `${Base_URL}/api/booking/bookings`,
-          bookingData
-        );
-        console.log('Booking Successful:', bookingResponse.data);
-  
-        // Create Razorpay order
-        const orderResponse = await axios.post(
-          `${Base_URL}/api/payment/create-order`,
-          {
-            amount: 10000 * 100, 
-            bookingId: bookingResponse.data.data._id
-          }
-        );
-  
-        // Show SweetAlert2 popup to confirm payment
-        const result = await Swal.fire({
-          title: 'Confirm Payment',
-          text: `The amount to be paid is ₹${orderResponse.data.order.amount / 100}`,
-          icon: 'question',
-          showCancelButton: true,
-          confirmButtonText: 'Yes, Proceed',
-          cancelButtonText: 'No, Cancel'
-        });
-  
-        // If the user clicks "Yes, Proceed", open Razorpay payment
-        if (result.isConfirmed) {
-          // Configure Razorpay options
-          const options = {
-            key: process.env.REACT_APP_RAZORPAY_KEY_ID,
-            amount: orderResponse.data.order.amount,
-            currency: "INR",
-            name: "WEB WAVES PAYMENT GATEWAY",
-            description: "Booking Payment",
-            order_id: orderResponse.data.order.id,
-            handler: async function (response) {
-              try {
-                // Verify payment
-                const verificationResponse = await axios.post(
-                  `${Base_URL}/api/payment/verify`,
-                  {
-                    bookingId: bookingResponse.data.data._id,
-                    paymentId: response.razorpay_payment_id,
-                    orderId: response.razorpay_order_id,
-                    signature: response.razorpay_signature,
-                    amount: orderResponse.data.order.amount
-                  }
-                );
-  
-                // Generate and download bill
-                generateBill(bookingResponse.data.data, {
-                  paymentId: response.razorpay_payment_id,
-                  amount: orderResponse.data.order.amount
-                });
-  
-                Swal.fire({
-                  title: "Payment successful!",
-                  text: "Booking confirmed and invoice has been downloaded",
-                  icon: "success"
-                });
-  
-                navigate('/dashboard');
-              } catch (error) {
-                console.error('Payment verification failed:', error);
-                alert('Payment verification failed. Please contact support.');
-              }
-            },
-            prefill: {
-              name: formData.shipperName,
-              email: formData.shipperEmail,
-              contact: formData.shipperPhone
-            },
-            theme: {
-              color: "#3399cc"
-            }
-          };
-  
-          const razorpay = new window.Razorpay(options);
-          razorpay.open();
-        } else {
-          Swal.fire({
-            title: 'Payment Canceled',
-            text: 'The payment process was canceled.',
-            icon: 'info'
-          });
-        }
-  
-      } catch (error) {
-        console.error('Error:', error);
-        let errorMessage = 'An error occurred. Please try again.';
-  
-        if (error.response) {
-          console.error('Error data:', error.response.data);
-          errorMessage = error.response.data.message || errorMessage;
-        }
-  
-        alert(errorMessage);
-      }
+      await showConfirmationScreen();
     } else {
       console.error('Date validation error:', dateError);
       alert('Please enter a valid shipping date.');
@@ -438,8 +461,28 @@ const BookingForm = () => {
         </select>
       </div>
 
+      <div className="form-section">
+        <h3>Origin and Destination</h3>
+        <input type="text" id="originPort" name="originPort" value={formData.originPort} onChange={handleChange} placeholder="Origin Port" required />
+        <input type="text" id="destinationPort" name="destinationPort" value={formData.destinationPort} onChange={handleChange} placeholder="Destination Port" required />
+      </div>
 
-      
+      <div className="form-section">
+        <h3>Schedule and Route</h3>
+        <div className="date-input-wrapper">
+          <input 
+            type="date" 
+            name="preferredShippingDate" 
+            value={formData.preferredShippingDate} 
+            onChange={handleChange} 
+            min={today}
+            required 
+          />
+          <label>Preferred Shipping Date</label>
+          {dateError && <span className="error-message">{dateError}</span>}
+        </div>
+        <input type="text" id="preferredCarrier" name="preferredCarrier" value={formData.preferredCarrier} onChange={handleChange} placeholder="Preferred Carrier (optional)" />
+      </div>
 
       <div className="form-section">
         <h3>Insurance</h3>

@@ -36,7 +36,9 @@ import {
   TableRow,
   TableCell,
   ListItemIcon,
-  Divider
+  Divider,
+  InputAdornment,
+  Alert
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
@@ -59,7 +61,7 @@ const Footer = () => {
       <div className="footer-container">
         <div className="footer-left">
           <h3>About Us</h3>
-          <p>Ocean Oracle is your trusted partner in global shipping and logistics solutions. We provide comprehensive services to meet all your transportation needs.</p>
+          <p>WaveLine is your trusted partner in global shipping and logistics solutions. We provide comprehensive services to meet all your transportation needs.</p>
           <div className="social-icons">
             <a href="#"><FaFacebookF /></a>
             <a href="#"><FaTwitter /></a>
@@ -73,10 +75,8 @@ const Footer = () => {
           <h3>Quick Links</h3>
           <ul>
             <li><Link to="/dashboard">Dashboard</Link></li>
-            <li><Link to="/dashboard/bookings">Bookings</Link></li>
-            <li><Link to="/dashboard/shipping">Shipping</Link></li>
-            <li><Link to="/dashboard/trucking">Trucking</Link></li>
-            <li><Link to="/dashboard/profile">Profile</Link></li>
+            <li><Link to="/make-a-booking">Booking Now</Link></li>
+            <li><Link to="/profile">Profile</Link></li>
           </ul>
         </div>
         
@@ -89,7 +89,7 @@ const Footer = () => {
             </div>
             <div className="contact-item">
               <FaEnvelope className="contact-icon" />
-              <span>info@oceanoracle.com</span>
+              <span>info@wavline.com</span>
             </div>
             <div className="contact-item">
               <FaMapMarker className="contact-icon" />
@@ -99,7 +99,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="footer-bottom">
-        <p>&copy; 2024 Ocean Oracle. All rights reserved.</p>
+        <p>&copy; 2024 WaveLine. All rights reserved.</p>
       </div>
     </footer>
   );
@@ -184,7 +184,7 @@ const Dashboard = () => {
     {
       title: "Agriculture",
       image: agricultureImg,
-      description: "With global sourcing an everyday reality, Ocean Oracle connects the growers, farmers and producers of agricultural products around the world with their key markets.",
+      description: "With global sourcing an everyday reality, Wave Line connects the growers, farmers and producers of agricultural products around the world with their key markets.",
     },
     {
       title: "Fruits",
@@ -309,62 +309,119 @@ const Dashboard = () => {
     });
   };
 
-  const handleTrackPackage = async () => {
-    if (!trackingNumber) {
-      toast.error("Please enter a tracking number");
+  const handleTrackPackage = async (containerId = trackingNumber) => {
+    if (!containerId) {
+      toast.error("Please provide a container/tracking number");
       return;
     }
 
     setIsTracking(true);
     setTrackingError('');
+    setTrackingNumber(containerId); // Update tracking number in state
 
     try {
-      const response = await new Promise(resolve => {
-        setTimeout(() => {
-          resolve({
-            status: 'success',
-            data: {
-              trackingNumber: trackingNumber,
-              currentStatus: 'In Transit',
-              currentLocation: 'Mumbai Port',
-              estimatedDelivery: '2024-03-25T15:00:00',
+      // Find the booking in history to get real data
+      const booking = bookingHistory.find(b => b.containerId === containerId);
+      
+      if (!booking) {
+        throw new Error("Booking not found");
+      }
+
+      // Generate realistic tracking data based on booking status
+      const generateTrackingData = () => {
+        const baseData = {
+          trackingNumber: containerId,
+          currentStatus: booking.status,
+          origin: booking.origin,
+          destination: booking.destination,
+          vessel: booking.vessel,
+          eta: booking.eta
+        };
+
+        // Status-specific details
+        switch(booking.status) {
+          case 'Processing':
+            return {
+              ...baseData,
+              currentLocation: booking.origin,
+              estimatedDelivery: booking.eta,
               history: [
                 {
-                  date: '2024-03-20T10:00:00',
-                  location: 'Mumbai Port',
-                  status: 'Package Received',
-                  description: 'Package received at origin facility'
-                },
-                {
-                  date: '2024-03-21T14:30:00',
-                  location: 'Mumbai Port',
+                  date: new Date(new Date(booking.date).getTime() + 86400000).toISOString(), // +1 day
+                  location: booking.origin,
                   status: 'Processing',
-                  description: 'Package being processed for shipping'
-                },
-                {
-                  date: '2024-03-22T09:15:00',
-                  location: 'Mumbai Port',
-                  status: 'In Transit',
-                  description: 'Package loaded onto container'
+                  description: 'Container being processed at origin facility'
                 }
               ]
-            }
-          });
-        }, 1000);
-      });
+            };
+          case 'In Transit':
+            return {
+              ...baseData,
+              currentLocation: 'At Sea',
+              estimatedDelivery: booking.eta,
+              history: [
+                {
+                  date: new Date(new Date(booking.date).getTime() + 86400000).toISOString(), // +1 day
+                  location: booking.origin,
+                  status: 'Processing',
+                  description: 'Container processed at origin'
+                },
+                {
+                  date: new Date(new Date(booking.date).getTime() + 172800000).toISOString(), // +2 days
+                  location: booking.origin,
+                  status: 'Loaded',
+                  description: 'Container loaded onto vessel'
+                },
+                {
+                  date: new Date(new Date(booking.date).getTime() + 259200000).toISOString(), // +3 days
+                  location: 'At Sea',
+                  status: 'In Transit',
+                  description: 'Vessel departed origin port'
+                }
+              ]
+            };
+          case 'Completed':
+            return {
+              ...baseData,
+              currentLocation: booking.destination,
+              currentStatus: 'Delivered',
+              estimatedDelivery: booking.eta,
+              history: [
+                // ... similar pattern for completed shipments
+              ]
+            };
+          default:
+            return {
+              ...baseData,
+              currentLocation: booking.origin,
+              estimatedDelivery: booking.eta,
+              history: []
+            };
+        }
+      };
 
-      if (response.status === 'success') {
-        setTrackingResult(response.data);
-        setTrackingHistory(response.data.history);
-        toast.success("Package tracking information retrieved successfully!");
+      const trackingData = generateTrackingData();
+      
+      setTrackingResult(trackingData);
+      setTrackingHistory(trackingData.history);
+      toast.success(`Tracking container ${containerId}`);
+      
+      // Scroll to results if not in modal
+      if (!bookingDetailOpen) {
+        setTimeout(() => {
+          document.getElementById('tracking-results')?.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }, 100);
       }
     } catch (error) {
-      setTrackingError("Unable to track package. Please try again later.");
-      toast.error("Failed to track package");
+      setTrackingError(error.message || "Unable to track package");
+      toast.error(`Tracking failed: ${error.message}`);
     } finally {
       setIsTracking(false);
     }
-  };
+};
 
   const fetchBookingHistory = async () => {
     setIsLoadingBookings(true);
@@ -735,175 +792,122 @@ const Dashboard = () => {
         </div>
 
         <div className="tracking-section">
-          <h2 className="section-title">Package Tracking</h2>
-          <p className="section-description">Track your packages in real-time with detailed status updates</p>
-          
-          <div className="tracking-search">
-            <TextField
-              fullWidth
-              variant="outlined"
-              placeholder="Enter Tracking Number"
-              value={trackingNumber}
-              onChange={(e) => setTrackingNumber(e.target.value)}
-              className="tracking-input"
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleTrackPackage}
-              disabled={isTracking}
-              className="track-button"
-            >
-              {isTracking ? "Tracking..." : "Track Package"}
-            </Button>
-          </div>
+  <h2 className="section-title">Container Tracking</h2>
+  <p className="section-description">
+    Track your containers in real-time using your Container ID
+  </p>
 
-          {trackingError && (
-            <div className="tracking-error">
-              {trackingError}
-            </div>
-          )}
+  <div className="tracking-search">
+    <TextField
+      fullWidth
+      variant="outlined"
+      placeholder="Enter Container ID (e.g. CONT-78945)"
+      value={trackingNumber}
+      onChange={(e) => setTrackingNumber(e.target.value)}
+      className="tracking-input"
+      error={!!trackingError}
+      helperText={
+        trackingError || 
+        (bookingHistory.length > 0 
+          ? `Try: ${bookingHistory[0].containerId}` 
+          : "No bookings available")
+      }
+      InputProps={{
+        startAdornment: (
+          <InputAdornment position="start">
+            <FaBoxOpen />
+          </InputAdornment>
+        ),
+      }}
+    />
+    <Button
+      variant="contained"
+      color="primary"
+      onClick={handleTrackPackage}
+      disabled={isTracking}
+      className="track-button"
+    >
+      {isTracking ? "Tracking..." : "Track Container"}
+    </Button>
+  </div>
 
-          {trackingResult && (
-            <div className="tracking-result">
-              <Card className="tracking-status-card">
-                <CardContent>
-                  <Grid container spacing={3}>
-                    <Grid item xs={12} md={4}>
-                      <div className="status-item">
-                        <FaMapMarkerAlt className="status-icon" />
-                        <div>
-                          <Typography variant="subtitle2" color="textSecondary">
-                            Current Location
-                          </Typography>
-                          <Typography variant="h6">
-                            {trackingResult.currentLocation}
-                          </Typography>
-                        </div>
-                      </div>
-                    </Grid>
-                    <Grid item xs={12} md={4}>
-                      <div className="status-item">
-                        <FaClock className="status-icon" />
-                        <div>
-                          <Typography variant="subtitle2" color="textSecondary">
-                            Current Status
-                          </Typography>
-                          <Typography variant="h6">
-                            {trackingResult.currentStatus}
-                          </Typography>
-                        </div>
-                      </div>
-                    </Grid>
-                    <Grid item xs={12} md={4}>
-                      <div className="status-item">
-                        <FaRoute className="status-icon" />
-                        <div>
-                          <Typography variant="subtitle2" color="textSecondary">
-                            Estimated Delivery
-                          </Typography>
-                          <Typography variant="h6">
-                            {new Date(trackingResult.estimatedDelivery).toLocaleString()}
-                          </Typography>
-                        </div>
-                      </div>
-                    </Grid>
-                  </Grid>
-                </CardContent>
-              </Card>
-
-              <div className="tracking-timeline">
-                <Typography variant="h6" className="timeline-title">
-                  Tracking History
+  {/* Results Section - Fixed Rendering */}
+  {trackingResult ? (
+    <Card className="tracking-result">
+      <CardContent>
+        <Typography variant="h6" gutterBottom>
+          Container {trackingResult.trackingNumber}
+        </Typography>
+        
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={4}>
+            <div className="status-item">
+              <FaMapMarkerAlt className="status-icon" />
+              <div>
+                <Typography variant="subtitle2">Current Location</Typography>
+                <Typography variant="body1">
+                  {trackingResult.currentLocation}
                 </Typography>
-                <div className="timeline">
-                  {trackingHistory.map((event, index) => (
-                    <div key={index} className="timeline-item">
-                      <div className="timeline-dot"></div>
-                      <div className="timeline-content">
-                        <Typography variant="subtitle1" className="timeline-date">
-                          {new Date(event.date).toLocaleString()}
-                        </Typography>
-                        <Typography variant="h6" className="timeline-status">
-                          {event.status}
-                        </Typography>
-                        <Typography variant="body2" className="timeline-location">
-                          {event.location}
-                        </Typography>
-                        <Typography variant="body2" className="timeline-description">
-                          {event.description}
-                        </Typography>
-                      </div>
-                    </div>
-                  ))}
-                </div>
               </div>
             </div>
-          )}
+          </Grid>
+          
+          <Grid item xs={12} md={4}>
+            <div className="status-item">
+              <FaShip className="status-icon" />
+              <div>
+                <Typography variant="subtitle2">Vessel</Typography>
+                <Typography variant="body1">
+                  {trackingResult.vessel || 'N/A'}
+                </Typography>
+              </div>
+            </div>
+          </Grid>
+          
+          <Grid item xs={12} md={4}>
+            <div className="status-item">
+              <FaClock className="status-icon" />
+              <div>
+                <Typography variant="subtitle2">Estimated Arrival</Typography>
+                <Typography variant="body1">
+                  {new Date(trackingResult.estimatedDelivery).toLocaleString()}
+                </Typography>
+              </div>
+            </div>
+          </Grid>
+        </Grid>
 
-          <div className="services-section">
-            <h2 className="section-title">Services</h2>
-            <p className="section-description">Manage your shipping and delivery needs</p>
-            
-            <Grid container spacing={3} className="services-grid">
-              <Grid item xs={12} sm={6} md={4}>
-                <Card className="service-card" onClick={handleOpenSchedulingDialog}>
-                  <CardContent>
-                    <FaCalendarAlt size={40} className="service-icon" />
-                    <Typography variant="h6" component="div">
-                      Pick-up/Delivery Scheduling
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Schedule pickups and deliveries for your containers
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-              
-              <Grid item xs={12} sm={6} md={4}>
-                <Card className="service-card" onClick={handleOpenMovementDialog}>
-                  <CardContent>
-                    <FaBoxOpen size={40} className="service-icon" />
-                    <Typography variant="h6" component="div">
-                      Container Movement Updates
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Update or track the movement of your containers
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-              
-              <Grid item xs={12} sm={6} md={4}>
-                <Card className="service-card" onClick={handleOpenDriverDialog}>
-                  <CardContent>
-                    <FaUserCog size={40} className="service-icon" />
-                    <Typography variant="h6" component="div">
-                      Driver Assignment
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Assign drivers to your shipments
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-              
-              <Grid item xs={12} sm={6} md={4}>
-                <Card className="service-card" onClick={handleOpenDeliveryDialog}>
-                  <CardContent>
-                    <FaCheckCircle size={40} className="service-icon" />
-                    <Typography variant="h6" component="div">
-                      Delivery Confirmation
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Confirm delivery of your containers
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            </Grid>
-          </div>
+        {/* Tracking Timeline */}
+        <Divider style={{ margin: '20px 0' }} />
+        <Typography variant="h6" gutterBottom>
+          Tracking History
+        </Typography>
+        <div className="timeline">
+          {trackingHistory.map((event, index) => (
+            <div key={index} className="timeline-item">
+              <div className="timeline-dot" />
+              <div className="timeline-content">
+                <Typography variant="body2" color="textSecondary">
+                  {new Date(event.date).toLocaleString()}
+                </Typography>
+                <Typography variant="subtitle1">
+                  {event.status}
+                </Typography>
+                <Typography variant="body2">
+                  {event.location} • {event.description}
+                </Typography>
+              </div>
+            </div>
+          ))}
         </div>
+      </CardContent>
+    </Card>
+  ) : trackingError ? (
+    <Alert severity="error" style={{ marginTop: 20 }}>
+      {trackingError}
+    </Alert>
+  ) : null}
+</div>
 
         <div className="booking-history-section">
           <h2 className="section-title">Booking History</h2>
@@ -929,37 +933,53 @@ const Dashboard = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {bookingHistory.length > 0 ? (
-                        bookingHistory.map((booking) => (
-                          <TableRow key={booking.id} className="booking-row">
-                            <TableCell>{booking.id}</TableCell>
-                            <TableCell>{new Date(booking.date).toLocaleDateString()}</TableCell>
-                            <TableCell>{booking.origin}</TableCell>
-                            <TableCell>{booking.destination}</TableCell>
-                            <TableCell>
-                              <span className={`status-badge status-${booking.status.toLowerCase().replace(/\s+/g, '-')}`}>
-                                {booking.status}
-                              </span>
-                            </TableCell>
-                            <TableCell>
-                              <IconButton
-                                color="primary"
-                                onClick={() => handleViewBookingDetail(booking)}
-                                title="View Details"
-                              >
-                                <FaEye />
-                              </IconButton>
-                            </TableCell>
-                          </TableRow>
-                        ))
-                      ) : (
-                        <TableRow>
-                          <TableCell colSpan={6} align="center">
-                            No booking history found
-                          </TableCell>
-                        </TableRow>
-                      )}
-                    </TableBody>
+  {bookingHistory.length > 0 ? (
+    bookingHistory.map((booking) => (
+      <TableRow key={booking.id} className="booking-row">
+        <TableCell>{booking.id}</TableCell>
+        <TableCell>{new Date(booking.date).toLocaleDateString()}</TableCell>
+        <TableCell>{booking.origin}</TableCell>
+        <TableCell>{booking.destination}</TableCell>
+        <TableCell>
+          <span className={`status-badge status-${booking.status.toLowerCase().replace(/\s+/g, '-')}`}>
+            {booking.status}
+          </span>
+        </TableCell>
+        <TableCell>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <IconButton
+              color="primary"
+              onClick={() => handleViewBookingDetail(booking)}
+              title="View Details"
+            >
+              <FaEye />
+            </IconButton>
+            {booking.status === 'In Transit' && (
+              <IconButton
+                color="secondary"
+                onClick={() => {
+                  setTrackingNumber(booking.containerId);
+                  handleTrackPackage();
+                  document.getElementById('tracking-results')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                title="Track Shipment"
+                style={{ color: '#9c27b0' }} // Purple color for track button
+              >
+                <FaRoute />
+              </IconButton>
+            )}
+          </div>
+        </TableCell>
+      </TableRow>
+    ))
+  ) : (
+    <TableRow>
+      <TableCell colSpan={7} align="center"> {/* Changed colSpan from 6 to 7 */}
+        No booking history found
+      </TableCell>
+    </TableRow>
+  )}
+</TableBody>
                   </Table>
                 </CardContent>
               </Card>
