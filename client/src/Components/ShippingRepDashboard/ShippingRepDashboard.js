@@ -61,16 +61,23 @@ const ShippingRepDashboard = () => {
       const response = await axios.put(`${Base_URL}/api/booking/bookings/${bookingId}`, {
         status: newStatus
       });
-      
+  
       console.log('Update response:', response.data);
-
+  
+      // ✅ Update the state immediately (prevents waiting for fetchData)
+      setBookings((prevBookings) =>
+        prevBookings.map((booking) =>
+          booking._id === bookingId ? { ...booking, status: newStatus } : booking
+        )
+      );
+  
       toast.success(`Booking ${newStatus.toLowerCase()} successfully`);
-      fetchData(); // Refresh the data
     } catch (error) {
       console.error('Error updating booking status:', error);
       toast.error('Failed to update booking status');
     }
   };
+  
 
   // Handle date change for vessel schedule
   const handleDateChange = (vesselId, newDate) => {

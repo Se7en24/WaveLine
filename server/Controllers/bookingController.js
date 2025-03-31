@@ -42,6 +42,39 @@ exports.getAllBookings = async (req, res) => {
   }
 };
 
+exports.updateBookingStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    // Find and update the booking status
+    const updatedBooking = await Booking.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true }
+    );
+
+    if (!updatedBooking) {
+      return res.status(404).json({
+        success: false,
+        message: 'Booking not found'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Booking status updated successfully',
+      data: updatedBooking
+    });
+  } catch (error) {
+    console.error('Error updating booking status:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error updating booking status',
+      error: error.message
+    });
+  }
+};
 // Optional: Get a single booking by ID
 exports.getBookingById = async (req, res) => {
   try {
