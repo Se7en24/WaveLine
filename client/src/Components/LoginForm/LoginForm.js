@@ -81,12 +81,24 @@ const LoginForm = () => {
             setTimeout(() => {
               navigate("/dashboard");
             }, 1000);
-          } else {
+          } else if(response.data.user.role === 'customs'){
+            setTimeout(() => {
+              navigate("/customs");
+            }, 1000);
+          }else if(response.data.user.role === 'shiprep'){
+            setTimeout(() => {
+              navigate("/shiprep");
+            }, 1000);
+          }else if(response.data.user.role === 'trucking'){
+            setTimeout(() => {
+              navigate("/trucking");
+            }, 1000);
+          }
+          else {
             setTimeout(() => {
               navigate("/admin-dashboard");
             }, 1000);
           }
-          
         }
       } catch (error) {
         console.error("Login error:", error);

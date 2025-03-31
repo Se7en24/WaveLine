@@ -1,0 +1,124 @@
+[{
+  "_id": {
+    "$oid": "672c32191be4c98818b6073f"
+  },
+  "shipId": {
+    "$oid": "670de2471b209fafffde631a"
+  },
+  "startingPort": "Cochin",
+  "intermediatePorts": [
+    "Kolkata",
+    "Shanghai",
+    "Saint Petersburg",
+    "Houston"
+  ],
+  "destinationPort": "Los Angeles",
+  "currentLocation": "Kolkata",
+  "eta": {
+    "$date": "2025-04-22T03:20:00.000Z"
+  },
+  "etd": {
+    "$date": "2025-03-22T03:20:00.000Z"
+  },
+  "createdAt": {
+    "$date": "2024-11-07T03:20:57.261Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-07T03:20:57.261Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6784ed6abd3c755fc2f1c26b"
+  },
+  "shipId": {
+    "$oid": "670de40b1b209fafffde631f"
+  },
+  "startingPort": "Chennai",
+  "intermediatePorts": [
+    "Kolkata",
+    "Columbo",
+    "Ozaka",
+    "Berlin",
+    "London",
+    "Houstan"
+  ],
+  "destinationPort": "Los Angeles",
+  "currentLocation": "Chennai",
+  "eta": {
+    "$date": "2025-01-15T10:39:00.000Z"
+  },
+  "etd": {
+    "$date": "2025-02-28T15:39:00.000Z"
+  },
+  "createdAt": {
+    "$date": "2025-01-13T10:39:38.601Z"
+  },
+  "updatedAt": {
+    "$date": "2025-01-13T10:39:38.601Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a1923d4e76f1716a7cc800"
+  },
+  "shipId": {
+    "$oid": "670df1db1b209fafffde633c"
+  },
+  "startingPort": "Cochin",
+  "intermediatePorts": [
+    "Kolkata",
+    "Columbo",
+    "Ozaka",
+    "Berlin",
+    "London",
+    "Houstan"
+  ],
+  "destinationPort": "Los Angeles",
+  "currentLocation": "Columbo",
+  "eta": {
+    "$date": "2025-04-30T04:05:00.000Z"
+  },
+  "etd": {
+    "$date": "2025-03-29T04:06:00.000Z"
+  },
+  "createdAt": {
+    "$date": "2025-02-04T04:06:21.980Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-04T04:06:21.980Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a193bf4e76f1716a7cc814"
+  },
+  "shipId": {
+    "$oid": "670ded3d1b209fafffde632d"
+  },
+  "startingPort": "Chennai",
+  "intermediatePorts": [
+    "Kolkata",
+    "Shanghai",
+    "Saint Petersburg",
+    "Houston"
+  ],
+  "destinationPort": "Los Angeles",
+  "currentLocation": "Kolkata",
+  "eta": {
+    "$date": "2025-05-13T04:12:00.000Z"
+  },
+  "etd": {
+    "$date": "2025-03-04T04:12:00.000Z"
+  },
+  "createdAt": {
+    "$date": "2025-02-04T04:12:47.822Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-04T04:12:47.822Z"
+  },
+  "__v": 0
+}]

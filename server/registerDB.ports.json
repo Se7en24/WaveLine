@@ -1,0 +1,70 @@
+[{
+  "_id": {
+    "$oid": "671bd31e313856d5ec15298e"
+  },
+  "country": "India",
+  "__v": 0,
+  "ports": [
+    "Mumbai(India)",
+    "Chennai(India)",
+    "Kolkata(India)",
+    "Cochin(India)",
+    "Visakhapatnam(India)"
+  ]
+},
+{
+  "_id": {
+    "$oid": "671bd31e313856d5ec152990"
+  },
+  "country": "Japan",
+  "__v": 0,
+  "ports": [
+    "Tokyo(Japan)",
+    "Osaka(Japan)",
+    "Yokohama(Japan)",
+    "Nagoya(Japan)",
+    "Kobe(Japan)"
+  ]
+},
+{
+  "_id": {
+    "$oid": "671bd31e313856d5ec152992"
+  },
+  "country": "China",
+  "__v": 0,
+  "ports": [
+    "Shanghai(China)",
+    "Shenzhen(China)",
+    "Guangzhou(China)",
+    "Ningbo(China)",
+    "Qingdao(China)"
+  ]
+},
+{
+  "_id": {
+    "$oid": "671bd31e313856d5ec152994"
+  },
+  "country": "Russia",
+  "__v": 0,
+  "ports": [
+    "Saint Petersburg(Russia)",
+    "Vladivostok(Russia)",
+    "Novorossiysk(Russia)",
+    "Murmansk(Russia)",
+    "Kaliningrad(Russia)"
+  ]
+},
+{
+  "_id": {
+    "$oid": "671bd31e313856d5ec152996"
+  },
+  "country": "United States",
+  "__v": 0,
+  "ports": [
+    "Los Angeles(United Sates)",
+    "Long Beach(United Sates)",
+    "New York(United Sates)",
+    "Seattle(United Sates)",
+    "Houston(United Sates)"
+  ]
+}]

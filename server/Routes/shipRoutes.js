@@ -14,4 +14,6 @@ router.post('/schedules', scheduleController.createSchedule); // Add schedule
 
 router.get('/schedules', scheduleController.getSchedules); // Get schedules
 
+router.put('/schedules/:id', scheduleController.updateSchedule); 
+
 module.exports = router;

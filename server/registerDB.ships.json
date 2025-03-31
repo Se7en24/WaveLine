@@ -1,0 +1,84 @@
+[{
+  "_id": {
+    "$oid": "670de2471b209fafffde631a"
+  },
+  "shipName": "Ocean Voyager",
+  "imoNumber": "9834576",
+  "shipType": "Cargo Ship",
+  "flag": "Panama",
+  "cargoCapacity": 12497,
+  "loa": 366,
+  "draft": 14.5,
+  "beam": 50,
+  "inspectionStatus": "Passed (2024-08-10)",
+  "createdAt": {
+    "$date": "2024-10-15T03:32:23.053Z"
+  },
+  "updatedAt": {
+    "$date": "2024-10-15T03:32:23.053Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "670de40b1b209fafffde631f"
+  },
+  "shipName": " Pacific Horizon",
+  "imoNumber": "9273642",
+  "shipType": "Cargo Ship",
+  "flag": "India",
+  "cargoCapacity": 179999,
+  "loa": 292,
+  "draft": 17,
+  "beam": 45,
+  "inspectionStatus": "Passed (2023-12-15)",
+  "createdAt": {
+    "$date": "2024-10-15T03:39:55.532Z"
+  },
+  "updatedAt": {
+    "$date": "2024-10-15T03:39:55.532Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "670ded3d1b209fafffde632d"
+  },
+  "shipName": "Atlantic Voyager",
+  "imoNumber": "973421",
+  "shipType": "Cargo Ship",
+  "flag": "Liberia",
+  "cargoCapacity": 65000,
+  "loa": 310,
+  "draft": 14.5,
+  "beam": 40,
+  "inspectionStatus": "Passed 2022-05-21",
+  "createdAt": {
+    "$date": "2024-10-15T04:19:09.129Z"
+  },
+  "updatedAt": {
+    "$date": "2024-10-15T04:19:09.129Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "670df1db1b209fafffde633c"
+  },
+  "shipName": "Ocean Miracle",
+  "imoNumber": "348756",
+  "shipType": "Cargo Ship",
+  "flag": "Sri Lanka",
+  "cargoCapacity": 78452,
+  "loa": 450,
+  "draft": 16.5,
+  "beam": 44,
+  "inspectionStatus": "Passed 2020-12-23",
+  "createdAt": {
+    "$date": "2024-10-15T04:38:51.359Z"
+  },
+  "updatedAt": {
+    "$date": "2024-10-15T04:38:51.359Z"
+  },
+  "__v": 0
+}]

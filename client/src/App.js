@@ -18,6 +18,8 @@ import UsersList from "./Pages/AdminPages/UsersList";
 import ShipSchedules from "./Pages/ShipSchedules";
 import BookingPage from "./Pages/AdminPages/BookingPage";
 import Contact from "./Pages/Contact"; // Added import for Contact page
+import Trucking from "./Pages/Trucking";
+import ShipRep from "./Pages/ShipRep";
 
 function App() {
   return (
@@ -30,11 +32,12 @@ function App() {
           <Route path="/dashboard" element={<UserDashboard />} />
           <Route path="/track" element={<Track />} />
           <Route path="/make-a-booking" element={<Booking />} />
-          <Route path="/ebookings" element={<Booking />} />
           <Route path="/schedule" element={<Schedule />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/login-navbar" element={<LoginNavbar />} />
           <Route path="/shipschedules" element={<ShipSchedules />} />
+          <Route path="/trucking" element={<Trucking /> } />
+          <Route path="/shiprep" element={<ShipRep />  } />
           <Route path="/contact" element={<Contact />} /> {/* Added route for Contact page */}
           <Route element={<AppLayout />}>
             <Route path="/admin-dashboard" element={<AdminDashboard />} />

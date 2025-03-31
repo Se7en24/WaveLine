@@ -1,0 +1,174 @@
+[{
+  "_id": {
+    "$oid": "670aab3375e03ef51295f3a9"
+  },
+  "firstName": "Rahul",
+  "lastName": "User",
+  "email": "user@gmail.com",
+  "password": "$2a$10$6ciq2X8UyLltVzeayltAbu2G4wIW77BuUrHOFvH3zc.WYPS5zUXjW",
+  "company": "User",
+  "street": "User234",
+  "postalCode": "673639",
+  "city": "Areekode",
+  "state": "Kerala",
+  "country": "India",
+  "phone": "8606882759",
+  "role": "customer",
+  "createdAt": {
+    "$date": "2024-10-12T17:00:35.766Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-08T10:42:35.409Z"
+  },
+  "__v": 0,
+  "status": "enabled"
+},
+{
+  "_id": {
+    "$oid": "670aad3764123af182ddc791"
+  },
+  "firstName": "Admin",
+  "lastName": "Admin",
+  "email": "admin@gmail.com",
+  "password": "$2a$10$D0ghCkWboucmgEFBqQzEWuO6rWwk.yHJ91nfktuA3XO33O/CKJa4y",
+  "company": "Admin",
+  "street": "Admin123",
+  "postalCode": "673639",
+  "city": "Areekode",
+  "state": "Kerala",
+  "country": "USA",
+  "phone": "7736769747",
+  "role": "admin",
+  "createdAt": {
+    "$date": "2024-10-12T17:09:12.007Z"
+  },
+  "updatedAt": {
+    "$date": "2024-10-12T17:09:12.007Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6719151b01c86038cff3a7e4"
+  },
+  "firstName": "Rahul",
+  "lastName": "Saji",
+  "email": "rahulsaji54@gmail.com",
+  "password": "$2a$10$U13FLe8Y1VHLa6F4ImWr7uWizfjRE6JVo0FHMc1tLvFiDFQXp.I1G",
+  "company": "GB",
+  "street": "Elden Street 23",
+  "postalCode": "673639",
+  "city": "Areekode",
+  "state": "Kerala",
+  "country": "India",
+  "phone": "7736769747",
+  "role": "customer",
+  "createdAt": {
+    "$date": "2024-10-23T15:24:11.325Z"
+  },
+  "updatedAt": {
+    "$date": "2024-10-24T17:06:43.975Z"
+  },
+  "__v": 0,
+  "status": "enabled"
+},
+{
+  "_id": {
+    "$oid": "672cd2643aaa2ff2557ba109"
+  },
+  "firstName": "Anandu",
+  "lastName": "S Nair",
+  "email": "belt@gmail.com",
+  "password": "$2a$10$CVpBCE3B0mywjQcLK69YhOmaXDz.4Nijoc8UdzrtX1AZYR/dmVuZO",
+  "company": "Belt Company",
+  "street": "BeltStreet 123",
+  "postalCode": "673121",
+  "city": "Chengannur",
+  "state": "Kerala",
+  "country": "India",
+  "phone": "7356767564",
+  "role": "customer",
+  "status": "enabled",
+  "createdAt": {
+    "$date": "2024-11-07T14:44:52.458Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-07T14:46:36.758Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67bbe82e0292e44dac35bd6b"
+  },
+  "firstName": "Customs",
+  "lastName": "Customs",
+  "email": "customsoff@gmail.com",
+  "password": "$2a$10$3zhMV7ReL/jAUbgSxTRN..CP.6Byhpoh5KEE0wFgPguMwbttBT/DK",
+  "company": "Ocean Oracle",
+  "street": "Jumpstreet 21",
+  "postalCode": "673639",
+  "city": "Malappuram",
+  "state": "Kerala",
+  "country": "India",
+  "phone": "7736769747",
+  "role": "customs",
+  "status": "enabled",
+  "createdAt": {
+    "$date": "2025-02-24T03:31:58.086Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-24T03:31:58.086Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67bc2e2b0292e44dac35bd70"
+  },
+  "firstName": "Shipping Representative",
+  "lastName": "Shipping Representative",
+  "email": "shippingrep@gmail.com",
+  "password": "$2a$10$vUKHBCGzU/O2NHFKwlFj7elHnc6ZxE5hKG6YpP.zz0vQhCoUl3S6i",
+  "company": "Ocean Oracle",
+  "street": "User234",
+  "postalCode": "673639",
+  "city": "Areekode",
+  "state": "Kerala",
+  "country": "Brazil",
+  "phone": "8606882759",
+  "role": "shiprep",
+  "status": "enabled",
+  "createdAt": {
+    "$date": "2025-02-24T08:30:35.814Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-24T08:30:35.814Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67d93e1097f27784e913abfc"
+  },
+  "firstName": "Trucking",
+  "lastName": "Admin",
+  "email": "trucking@gmail.com",
+  "password": "$2a$10$y98m9RtJPilFmqjI956tHe.EcAIuTW.A.XcPEM.kNEwUIrfkV8qy.",
+  "company": "Trucking Services",
+  "street": "123 Truck Lane",
+  "postalCode": "12345",
+  "city": "Transport City",
+  "state": "Transport State",
+  "country": "India",
+  "phone": "1234567890",
+  "role": "trucking",
+  "status": "enabled",
+  "createdAt": {
+    "$date": "2025-03-18T09:34:08.867Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-18T09:34:08.867Z"
+  },
+  "__v": 0
+}]

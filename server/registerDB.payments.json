@@ -1,0 +1,92 @@
+[{
+  "_id": {
+    "$oid": "6784e489bd3c755fc2f1c247"
+  },
+  "bookingId": {
+    "$oid": "6784e465bd3c755fc2f1c245"
+  },
+  "razorpayPaymentId": "pay_Pit4lsklGyp6fe",
+  "razorpayOrderId": "order_Pit4SNrfjh2Ski",
+  "razorpaySignature": "9d8a98d4e3f6a4e7530bbc72b7777e8d64ce4d361d0f14ce7b5ec985cf5706f7",
+  "amount": 1000000,
+  "status": "completed",
+  "paymentDate": {
+    "$date": "2025-01-13T10:01:45.055Z"
+  },
+  "createdAt": {
+    "$date": "2025-01-13T10:01:45.056Z"
+  },
+  "updatedAt": {
+    "$date": "2025-01-13T10:01:45.056Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67a19df34e76f1716a7cc82b"
+  },
+  "bookingId": {
+    "$oid": "67a19dd84e76f1716a7cc829"
+  },
+  "razorpayPaymentId": "pay_PrVclXaGrqiYXR",
+  "razorpayOrderId": "order_PrVcc9pFbU59fB",
+  "razorpaySignature": "f6533a39ac2a7314be5ba24929cbfddb6a4fe1b3af1cf3f686786db877b246e3",
+  "amount": 1000000,
+  "status": "completed",
+  "paymentDate": {
+    "$date": "2025-02-04T04:56:19.966Z"
+  },
+  "createdAt": {
+    "$date": "2025-02-04T04:56:19.967Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-04T04:56:19.967Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67d8f8adc74171565c0d035c"
+  },
+  "bookingId": {
+    "$oid": "67d8f863c74171565c0d035a"
+  },
+  "razorpayPaymentId": "pay_Q87kjIz6fLTDjy",
+  "razorpayOrderId": "order_Q87jnBxSknc6hO",
+  "razorpaySignature": "19d6abb9183dc5b5633c8f5c993709fc97e8026fa3f3b1ac2c71307dc6c6ec86",
+  "amount": 1000000,
+  "status": "completed",
+  "paymentDate": {
+    "$date": "2025-03-18T04:38:05.076Z"
+  },
+  "createdAt": {
+    "$date": "2025-03-18T04:38:05.077Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-18T04:38:05.077Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67d8fbd930fc9a4e43a23343"
+  },
+  "bookingId": {
+    "$oid": "67d8fb7f30fc9a4e43a23341"
+  },
+  "razorpayPaymentId": "pay_Q87z4uZCFYXF6J",
+  "razorpayOrderId": "order_Q87xnGc7nFlDv8",
+  "razorpaySignature": "0e5ec61aba0645d9b754e5fe6bac2f2c65862aa4fd9a964f63eb4ae295915e20",
+  "amount": 1000000,
+  "status": "completed",
+  "paymentDate": {
+    "$date": "2025-03-18T04:51:37.185Z"
+  },
+  "createdAt": {
+    "$date": "2025-03-18T04:51:37.186Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-18T04:51:37.186Z"
+  },
+  "__v": 0
+}]

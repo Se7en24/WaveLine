@@ -37,14 +37,14 @@ const LoginNav = ({ toggleDrawer, userDetails }) => {
   return (
     <AppBar position="fixed" style={{ backgroundColor: 'white', color: '#333' }}>
       <Toolbar style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <IconButton
-          edge="start"
-          color="inherit"
-          aria-label="menu"
-          onClick={toggleDrawer(true)}
-        >
-          <MenuIcon />
-        </IconButton>
+      <IconButton
+  edge="start"
+  color="inherit"
+  aria-label="menu"
+  onClick={() => toggleDrawer(true)} // ✅ Fix applied
+>
+  <MenuIcon />
+</IconButton>
         <div className="navbar-logo" style={{ flexGrow: 1, textAlign: 'center' }}>
           <Link to="/">
             <img src={Logo} alt="Logo" style={{ height: '40px' }} />

@@ -21,6 +21,23 @@ exports.createSchedule = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+exports.updateSchedule = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedData = req.body;
+
+    const updatedSchedule = await Schedule.findByIdAndUpdate(id, updatedData, { new: true });
+
+    if (!updatedSchedule) {
+      return res.status(404).json({ message: "Schedule not found" });
+    }
+
+    res.json(updatedSchedule);
+  } catch (error) {
+    console.error('Error updating schedule:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
 
 exports.getSchedules = async (req, res) => {
   try {
